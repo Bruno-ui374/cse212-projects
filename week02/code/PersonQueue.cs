@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 /// <summary>
 /// A basic implementation of a Queue
 /// </summary>
@@ -13,11 +15,13 @@ public class PersonQueue
     /// <param name="person">The person to add</param>
     public void Enqueue(Person person)
     {
-        _queue.Insert(0, person);
+        // FIFO: add to the back
+        _queue.Add(person);
     }
 
     public Person Dequeue()
     {
+        // FIFO: remove from the front
         var person = _queue[0];
         _queue.RemoveAt(0);
         return person;
