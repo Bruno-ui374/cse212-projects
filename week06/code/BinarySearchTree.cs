@@ -80,7 +80,13 @@ public class BinarySearchTree : IEnumerable<int>
 
     private void TraverseBackward(Node? node, List<int> values)
     {
-        // TODO Problem 3
+        // Problem 3: reverse in-order traversal (Right, Node, Left)
+        if (node is not null)
+        {
+            TraverseBackward(node.Right, values);
+            values.Add(node.Data);
+            TraverseBackward(node.Left, values);
+        }
     }
 
     /// <summary>
@@ -100,7 +106,30 @@ public class BinarySearchTree : IEnumerable<int>
 }
 
 public static class IntArrayExtensionMethods {
-    public static string AsString(this IEnumerable array) {
-        return "<IEnumerable>{" + string.Join(", ", array.Cast<int>()) + "}";
+    // IMPORTANT: Your tests call: string.Join(", ", tree.Reverse().AsString())
+    // So AsString must return IEnumerable<string> shaped to produce:
+    // "<IEnumerable>{10, 7, 6, 5, 4, 3, 1}"
+    public static IEnumerable<string> AsString(this IEnumerable array) {
+        var values = array.Cast<int>().ToList();
+
+        if (values.Count == 0)
+            return new[] { "<IEnumerable>{}" };
+
+        if (values.Count == 1)
+            return new[] { $"<IEnumerable>{{{values[0]}}}" };
+
+        var result = new List<string>(values.Count);
+
+        // first element contains the prefix
+        result.Add("<IEnumerable>{" + values[0]);
+
+        // middle elements plain
+        for (int i = 1; i < values.Count - 1; i++)
+            result.Add(values[i].ToString());
+
+        // last element contains the suffix
+        result.Add(values[^1] + "}");
+
+        return result;
     }
 }
